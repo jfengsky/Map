@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>创建一个异步载入地图</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        html { height: 100% }
+        body { height: 100%; margin: 0; padding: 0 }
+        #map_canvas { height: 100% }
+    </style>
+
+</head>
+<body onload="initialize()">
+<div id="map_canvas" style="width:600px; height:600px"></div>
+
+<script type="text/javascript">
+    function initialize() {
+        // 地图坐标
+        var mapOptions = {
+            // 缩放等级 越高越大 0是地球,24是建筑
+            zoom: 2,
+            // 地图中心坐标
+            center: new google.maps.LatLng(0, -180),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        // 创建一个地图实例
+        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+        // 需要划线的点
+        var flightPlanCoordinates = [
+            new google.maps.LatLng(37.772323, -122.214897),
+            new google.maps.LatLng(21.291982, -157.821856),
+            new google.maps.LatLng(-18.142599, 178.431),
+            new google.maps.LatLng(-27.46758, 153.027892)
+        ];
+
+        // 绘线的模式
+        var flightPath = new google.maps.Polyline({
+            path: flightPlanCoordinates,
+            geodesic: true,
+
+            // 线条颜色
+            strokeColor: '#FF0000',
+
+            // 线条透明度
+            strokeOpacity: 1.0,
+
+            // 线条粗细(px)
+            strokeWeight: 2
+        });
+
+        // 开始划线
+        flightPath.setMap(map);
+    }
+    function loadScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "http://ditu.google.cn/maps/api/js?v=3.exp&callback=initialize";
+        document.body.appendChild(script);
+    }
+    window.onload = loadScript;
+</script>
+</body>
+</html>

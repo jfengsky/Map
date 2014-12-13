@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>创建自定义内容层</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        html { height: 100% }
+        body { height: 100%; margin: 0; padding: 0 }
+        #map_canvas { height: 100% }
+    </style>
+
+</head>
+<body onload="initialize()">
+<div id="map_canvas" style="width:600px; height:600px"></div>
+
+<script type="text/javascript">
+    function initialize() {
+        // 地图坐标
+        var lang = new google.maps.LatLng(41.89021, 12.49223);
+        var mapOptions = {
+            // 缩放等级 越高越大 0是地球,24是建筑
+            zoom: 16,
+            // 地图中心坐标
+            center: lang,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        // 创建一个地图实例
+        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+        // 需要显示的内容层的内容
+        var contentString = '<div id="content">'+
+          '<div id="siteNotice">'+
+          '</div>'+
+          '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+          '<div id="bodyContent">'+
+          '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+          'sandstone rock formation in the southern part of the '+
+          'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+          'south west of the nearest large town, Alice Springs; 450&#160;km '+
+          '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+          'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+          'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+          'Aboriginal people of the area. It has many springs, waterholes, '+
+          'rock caves and ancient paintings. Uluru is listed as a World '+
+          'Heritage Site.</p>'+
+          '<p>Attribution: Uluru, <a href="http://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+          'http://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+          '(last visited June 22, 2009).</p>'+
+          '</div>'+
+          '</div>';
+
+        // 创建一个容器
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString,
+
+            // 最大宽度
+            maxWidth: 200
+        });
+
+        // 创建一个标记
+        var marker = new google.maps.Marker({
+            position: lang,
+            map: map,
+            title: 'Uluru (Ayers Rock)'
+        });
+
+        // 给标记绑定点击事件
+        google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map,marker);
+        });
+
+    }
+    function loadScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "http://ditu.google.cn/maps/api/js?v=3.exp&callback=initialize";
+        document.body.appendChild(script);
+    }
+    window.onload = loadScript;
+</script>
+</body>
+</html>

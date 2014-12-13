@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>创建多个动画标记点</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        html { height: 100% }
+        body { height: 100%; margin: 0; padding: 0 }
+        #map_canvas { height: 100% }
+    </style>
+
+</head>
+<body onload="initialize()">
+<div id="map_canvas" style="width:600px; height:600px"></div>
+
+<script type="text/javascript">
+    function initialize() {
+
+        // 地图中心坐标
+        var center = new google.maps.LatLng(52.520816, 13.410186);
+
+        // 需要标记的多个点
+        var neighborhoods = [
+            new google.maps.LatLng(52.511467, 13.447179),
+            new google.maps.LatLng(52.549061, 13.422975),
+            new google.maps.LatLng(52.497622, 13.396110),
+            new google.maps.LatLng(52.517683, 13.394393)
+        ];
+
+        var markers = [];
+
+        var iterator = 0;
+
+        var mapOptions = {
+
+            // 缩放等级 越高越大 0是地球,24是建筑
+            zoom: 12,
+
+            // 地图中心坐标
+            center: center
+            // mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+
+        // 创建一个地图实例
+        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+        function addMarker(){
+            markers.push(new google.maps.Marker({
+                position: neighborhoods[iterator],
+                map: map,
+                draggable: false,
+                animation: google.maps.Animation.DROP
+            }));
+
+            iterator++;
+        }
+
+        for(var i = 0; i < neighborhoods.length; i++){
+            setTimeout(function() {
+                addMarker();
+            }, i * 200);
+        }
+    }
+
+    function loadScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "http://ditu.google.cn/maps/api/js?v=3.exp&callback=initialize";
+        document.body.appendChild(script);
+    }
+    window.onload = loadScript;
+</script>
+</body>
+</html>

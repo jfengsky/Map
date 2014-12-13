@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>创建一个异步载入地图</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        html { height: 100% }
+        body { height: 100%; margin: 0; padding: 0 }
+        #map_canvas { height: 100% }
+    </style>
+
+</head>
+<body onload="initialize()">
+<div id="map_canvas" style="width:600px; height:600px"></div>
+
+<script type="text/javascript">
+    function initialize() {
+        // 地图坐标
+        var lang = new google.maps.LatLng(41.89021, 12.49223);
+        var mapOptions = {
+            // 缩放等级 越高越大 0是地球,24是建筑
+            zoom: 16,
+            // 地图中心坐标
+            center: lang,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        // 创建一个地图实例
+        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+        // 插入一个标记点
+        var marker = new google.maps.Marker({
+            position: lang,
+            map: map,
+            title: 'Hello World!'
+        });
+    }
+    function loadScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "http://ditu.google.cn/maps/api/js?v=3.exp&callback=initialize";
+        document.body.appendChild(script);
+    }
+    window.onload = loadScript;
+</script>
+</body>
+</html>
